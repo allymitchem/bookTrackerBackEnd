@@ -1,5 +1,5 @@
 const client = require("./client")
-const { createUser, getAllUsers} = require("./")
+const { createUser, getAllUsers, updateUser} = require("./")
 
 async function dropTables(){
     try{
@@ -64,6 +64,13 @@ async function rebuildDB(){
     }
 }
 
+const updatedUserInfo = {
+    id: 1,
+    username:"ally",
+    password: "whyamilikethis",
+    email: "booksbooksbooks@books.com"
+}
+
 async function testDB(){
     console.log("Starting to test database...")
 
@@ -76,6 +83,9 @@ async function testDB(){
    
     const allUsers = await getAllUsers()
     console.log("All users: ", allUsers)
+    
+    const updatedUser = await updateUser( updatedUserInfo )
+    console.log("Updated user: ", updatedUser)
 
 
 }

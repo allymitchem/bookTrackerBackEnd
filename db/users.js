@@ -35,7 +35,77 @@ async function getAllUsers(){
     }
 }
 
+async function updateUser ({id, ...fields}){
+    const setString = Object.keys(fields)
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ")
+
+try {
+    const {
+        rows: [user]
+    } = await client.query(
+        `
+    UPDATE users
+    SET ${setString}
+    WHERE id=${id}
+    RETURNING *        
+    `,
+        Object.values(fields)
+    )
+    delete user.password
+    return user
+} catch (error) {
+    console.error()
+}
+
+// ----may need to add hashing, for some reason bcrypt was giving issues initially
+
+    // const allowedFields = [ "username", "password", "email"]
+    // const updatedFields = {}
+    // // const SALT_COUNT = 12;
+
+    // for (const field of allowedFields){
+    //     if (fields[field]){
+    //         if (field === "password"){
+    //             const hashedPassword = await bcrypt.hash(fields[field], SALT_COUNT)
+    //             updatedFields[field] = hashedPassword;
+    //         } else {
+    //             updatedFields[field]= fields[field]
+    //         }
+    //     }
+    // }
+
+    // // const updatedFields = {
+    // //     username: fields.username,
+    // //     password: hashedPassword,
+    // //     email: fields.email
+    // // }
+
+    // const setString = Object.keys(updatedFields).map((key, index) => `"${key}" =$${index + 1}`).join(", ");
+    // if (setString.length === 0){
+    //     // returns early if called without fields
+    //     return null;
+    // } 
+    // try {
+    //     const {
+    //         rows:[user]
+    //     } = await client.query (`
+    //     UPDATE users
+    //     SET ${setString}
+    //     WHERE id = ${id}
+    //     RETURNING *;
+    //     ` , Object.values(updatedFields))
+    //     delete user.password
+    //     return user
+    // } catch (error){
+    //     throw error
+    // }
+
+
+}
+
 module.exports = {
     createUser,
-    getAllUsers
+    getAllUsers,
+    updateUser
 }
