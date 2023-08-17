@@ -1,5 +1,5 @@
 const client = require("./client")
-const { createUser} = require("./")
+const { createUser, getAllUsers} = require("./")
 
 async function dropTables(){
     try{
@@ -74,6 +74,8 @@ async function testDB(){
     })
     console.log("User created: ", userCreated)
    
+    const allUsers = await getAllUsers()
+    console.log("All users: ", allUsers)
 
 
 }

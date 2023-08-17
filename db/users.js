@@ -23,6 +23,19 @@ async function createUser({username, password, email}){
     }
 }
 
+async function getAllUsers(){
+    try{
+        const {rows} = await client.query (`
+        SELECT username, email
+        FROM users;
+        `)
+        return rows;
+    } catch (error){
+        console.error
+    }
+}
+
 module.exports = {
-    createUser
+    createUser,
+    getAllUsers
 }
