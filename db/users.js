@@ -36,6 +36,11 @@ async function getAllUsers(){
 }
 
 async function updateUser ({id, ...fields}){
+    const SALT_COUNT = 12
+    const updatedPassword = await bcrypt.hash("newpassword", SALT_COUNT)
+ 
+    fields.password = updatedPassword
+
     const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ")
