@@ -1,5 +1,5 @@
 const client = require("./client")
-const { createUser, getAllUsers, updateUser} = require("./")
+const { createUser, getAllUsers, updateUser, deleteUser} = require("./")
 
 async function dropTables(){
     try{
@@ -47,6 +47,18 @@ async function createInitialUsers(){
             password: "testing123",
             email: "ilikeshadows@gmail.com"
         })
+
+        const Kaylan = await createUser ({
+            username: "Kaylan",
+            password: "testing456",
+            email: "hockey4lyfe@gmail.com"
+        })
+
+        const Rhys = await createUser({
+        username: "RhysesPieces",
+        password:"themosthandsomehighlord",
+        email:"batboy@gmail.com"
+        })
         console.log("Finished creating initial user...")
     }catch(error){
         console.error()
@@ -80,14 +92,17 @@ async function testDB(){
         email:"morallyblack@gmail.com"
     })
     console.log("User created: ", userCreated)
-   
+
     const allUsers = await getAllUsers()
     console.log("All users: ", allUsers)
     
     const updatedUser = await updateUser( updatedUserInfo )
     console.log("Updated user: ", updatedUser)
 
+    const deletedUser = await deleteUser(4)
+    console.log("Deleted user: ", deletedUser)
 
+    console.log("Finished testing database...")
 }
 
 rebuildDB()
