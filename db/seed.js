@@ -1,5 +1,5 @@
 const client = require("./client")
-const { createUser, getAllUsers, updateUser, deleteUser, getUserByUsername} = require("./")
+const { createUser, getAllUsers, updateUser, deleteUser, getUserByUsername, getUserById} = require("./")
 
 async function dropTables(){
     try{
@@ -101,6 +101,9 @@ async function testDB(){
 
     const userByUsername = await getUserByUsername('Kaylan')
     console.log("User by username: ", userByUsername)
+
+    const userById = await getUserById('3')
+    console.log("User by id: ", userById)
     // const deletedUser = await deleteUser(4)
     // console.log("Deleted user: ", deletedUser)
 
