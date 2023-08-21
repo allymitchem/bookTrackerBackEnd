@@ -20,6 +20,7 @@ const { createUser,
         try {
             if (req.user.id == 1){
                 const allUsers = await getAllUsers()
+                console.log(allUsers)
                 res.send(allUsers)
             } else {
                 next({
@@ -39,6 +40,19 @@ const { createUser,
             res.send(user)
         } catch ({name, message}){
             next({name, message})
+        }
+    })
+
+    usersRouter.post("/login", async (req, res, next) => {
+        const {username, password} = req.body
+        if(!username || !password){
+            next ({
+                error:"MissingCredentialsError",
+                message:"Please supply both a username and a password"
+            })
+        }
+        try {
+            const user = await getUser({username, password})
         }
     })
 
