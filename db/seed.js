@@ -6,6 +6,7 @@ const {
     deleteUser,
     getUserByUsername,
     getUserById,
+    getUser,
     addBook,
     getBooksByAuthor,
     getBookByTitle,
@@ -339,8 +340,11 @@ async function testDB() {
         const allUsers = await getAllUsers()
         console.log("All users: ", allUsers)
 
-        const updatedUser = await updateUser(updatedUserInfo)
-        console.log("Updated user: ", updatedUser)
+        // const updatedUser = await updateUser(updatedUserInfo)
+        // console.log("Updated user: ", updatedUser)
+
+        const gotUser = await getUser({username:"Allyson", password:"testing123"})
+        console.log("Got user: ", gotUser)
 
         const userByUsername = await getUserByUsername("Kaylan")
         console.log("User by username: ", userByUsername)
