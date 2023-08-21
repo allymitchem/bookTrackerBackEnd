@@ -1,12 +1,16 @@
 const client = require("./client")
-const {addBook, getBooksByAuthor, getBookByTitle, updateBook, getBookById, deleteBook, getAllBooks} = require('./')
+const {createUser, getAllUsers, updateUser, deleteUser, getUserByUsername, getUserById, addBook, getBooksByAuthor, getBookByTitle, updateBook, getBookById, deleteBook, getAllBooks} = require('./')
+
+
 
 async function dropTables(){
     try{
         console.log("Dropping all tables...")
         await client.query(`
+        
             DROP TABLE IF EXISTS users;
             DROP TABLE IF EXISTS books;
+
 
         `)
         console.log("Finished dropping all tables...")
@@ -49,6 +53,7 @@ async function createTables(){
         throw error
     }
 }
+
 
 async function populateBooks(){
     await addBook({
@@ -236,21 +241,82 @@ async function populateBooks(){
 };
 
 
+async function createInitialUsers(){
+    console.log("Starting to create initial users...")
+    try{
+        const Allyson = await createUser({
+            username: "Allyson",
+            password: "testing123",
+            email: "ilikeshadows@gmail.com"
+        })
+
+        const Kaylan = await createUser ({
+            username: "Kaylan",
+            password: "testing456",
+            email: "hockey4lyfe@gmail.com"
+        })
+
+        const Rhys = await createUser({
+        username: "RhysesPieces",
+        password:"themosthandsomehighlord",
+        email:"batboy@gmail.com"
+        })
+        console.log("Finished creating initial user...")
+    }catch(error){
+        console.error()
+    }
+}
+
 async function rebuildDB(){
     try{
         await dropTables()
         await createTables()
         await populateBooks()
+        await createInitialUsers()
+
     }catch (error){
         console.error(error)
         throw error
     }
 }
 
+const updatedUserInfo = {
+    id: 1,
+    username:"ally",
+    password: "whyamilikethis",
+    email: "booksbooksbooks@books.com"
+}
+
 async function testDB(){
     console.log("Starting to test database...")
 
+
     try {
+      
+     const userCreated = await createUser({
+        username: "Meadows",
+        password:"littlemouse",
+        email:"morallyblack@gmail.com"
+    })
+     
+    console.log("User created: ", userCreated)
+
+    const allUsers = await getAllUsers()
+    console.log("All users: ", allUsers)
+    
+    const updatedUser = await updateUser( updatedUserInfo )
+    console.log("Updated user: ", updatedUser)
+
+    const userByUsername = await getUserByUsername('Kaylan')
+    console.log("User by username: ", userByUsername)
+
+
+    const userById = await getUserById('3')
+    console.log("User by id: ", userById)
+    // const deletedUser = await deleteUser(4)
+    // console.log("Deleted user: ", deletedUser)
+
+
 
         const bookByAuthor = await getBooksByAuthor("Sarah J. Maas");
         console.log("Books By Author", bookByAuthor);
@@ -267,6 +333,8 @@ async function testDB(){
 
         const allBooks = await getAllBooks();
         console.log("All Books", allBooks);
+      
+        console.log("Finished testing database...")
         
     } catch (error) {
         console.error(error)
@@ -275,12 +343,11 @@ async function testDB(){
 
    
 
-
 }
 
 rebuildDB()
-.then(testDB)
-.catch(console.error)
+    .then(testDB)
+    .catch(console.error)
     .finally(() => {
         client.end()
     })
