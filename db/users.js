@@ -121,6 +121,8 @@ async function getUser({username, password}){
             } else {
                 return null
             }
+    } else {
+        return null
     }
 }
 
@@ -132,4 +134,5 @@ module.exports = {
     getUserByUsername, 
     getUserById,
     getUser
+
 }
