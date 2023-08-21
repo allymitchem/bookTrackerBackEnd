@@ -60,12 +60,10 @@ const { configDotenv } = require('dotenv')
         try {
             console.log("Attempting to log in...")
             const user = await getUser({username, password})
-            console.log("user:", user)
+           
             if (user){
                 try{
-                console.log("about to get token")
-                console.log("user.id: ", user.id)
-                console.log("username:", username)
+
                 const token = jwt.sign({id: user.id, username},`${process.env.JWT_SECRET}` )
                
                 console.log("token:", token)
