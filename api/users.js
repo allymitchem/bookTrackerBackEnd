@@ -1,8 +1,8 @@
+
 const  express = require('express')
 const usersRouter = express.Router()
-const jwt = require("jsonwebtoken")
+const jwt = require('jsonwebtoken')
 
-// const {JWT_SECRET} = process.env
 const {requireUser} = require("./utils")
 const bcrypt = require("bcrypt")
 const { createUser,
@@ -10,8 +10,10 @@ const { createUser,
     updateUser,
     deleteUser,
     getUserByUsername, 
-    getUserById, getUser} = require("../db")
-const { configDotenv } = require('dotenv')
+
+    getUserById,
+    getUser} = require("../db")
+
 
     usersRouter.use("", (req, res, next) => {
         console.log("A request has been made to users...")
@@ -60,6 +62,7 @@ const { configDotenv } = require('dotenv')
         try {
             console.log("Attempting to log in...")
             const user = await getUser({username, password})
+
            
             if (user){
                 try{
@@ -83,6 +86,31 @@ const { configDotenv } = require('dotenv')
             next(error)
         }
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 
