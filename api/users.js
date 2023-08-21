@@ -9,7 +9,7 @@ const { createUser,
     updateUser,
     deleteUser,
     getUserByUsername, 
-    getUserById} = require("../db")
+    getUserById, getUser} = require("../db")
 
     usersRouter.use("", (req, res, next) => {
         console.log("A request has been made to users...")
@@ -53,6 +53,17 @@ const { createUser,
         }
         try {
             const user = await getUser({username, password})
+            if (user){
+                const token =jwt.sign({id: user.id, username}, JWT_SECRET)
+                res.send({message:"You are logged in!", token, user})
+            } else {
+                next({
+                    error:"IncorrectCredentialsError",
+                    message: "Username or password is incorrect"
+                })
+            }
+        } catch(error){
+            next(error)
         }
     })
 
