@@ -29,6 +29,15 @@ async function createTables(){
             "dnfBooks" INTEGER[]
 
         );
+
+        CREATE TABLE books (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            author VARCHAR(255) NOT NULL,
+            "imageURL" VARCHAR(255),
+            genre VARCHAR(255) NOT NULL,
+            CONSTRAINT chk_genre CHECK (genre IN ('fantasy', 'mystery', 'classics', 'romance', 'youngAdult', 'non-fiction', 'fiction'))
+        );
         `)
 
         console.log("Finished building tables...")
