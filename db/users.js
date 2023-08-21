@@ -110,6 +110,20 @@ async function getUserById(id){
     }
 }
 
+async function getUser({username, password}){
+    const user = await getUserByUsername(username)
+    if (user){
+        const hashedPassword = user.password
+        let passwordsMatch = await bcrypt.compare(password, hashedPassword)
+            if(passwordsMatch){
+                delete user.password
+                return user
+            } else {
+                return null
+            }
+    }
+}
+
 module.exports = {
     createUser,
     getAllUsers,

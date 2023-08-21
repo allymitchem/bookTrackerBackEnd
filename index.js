@@ -1,4 +1,4 @@
-requestAnimationFrame('dotenv').config();
+// requestAnimationFrame('dotenv').config();
 
 const {PORT = 3000} = process.env
 const express = require('express')
@@ -19,8 +19,8 @@ server.use((req, res, next) => {
     next();
 })
 
-// const apiRouter = require("./api");
-// server.use('/api', apiRouter);
+const apiRouter = require("./api");
+server.use('/api', apiRouter);
 
 server.use("*", (req, res)=> {
     res.status(404).send({
