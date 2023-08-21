@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const { getUserById } = require('../db')
 const {JWT_SECRET} = process.env
 
+
 apiRouter.use(async (req, res, next) => {
     const prefix = 'Bearer'
     const auth = req.header('Authorization')
@@ -34,7 +35,17 @@ apiRouter.use(async (req, res, next) => {
     
 })
 
+apiRouter.use((error, req, res, next)=> {
+    res.send({  
+        name: error.name,
+        message: error.message
+    })
+})
+
 const usersRouter = require('./users')
 apiRouter.use('/users', usersRouter)
+
+const booksRouter = require('./books')
+apiRouter.use('/books', booksRouter)
 
 module.exports = apiRouter

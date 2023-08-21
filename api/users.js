@@ -1,7 +1,7 @@
+
 const  express = require('express')
 const usersRouter = express.Router()
 const jwt = require('jsonwebtoken')
-const {JWT_SECRET} = process.env
 const {requireUser} = require("./utils")
 const bcrypt = require("bcrypt")
 const { createUser,
@@ -9,7 +9,8 @@ const { createUser,
     updateUser,
     deleteUser,
     getUserByUsername, 
-    getUserById} = require("../db")
+    getUserById,
+    getUser} = require("../db")
 
     usersRouter.use("", (req, res, next) => {
         console.log("A request has been made to users...")
@@ -44,6 +45,7 @@ const { createUser,
     })
 
     usersRouter.post("/login", async (req, res, next) => {
+       
         const {username, password} = req.body
         if(!username || !password){
             next ({
@@ -52,9 +54,51 @@ const { createUser,
             })
         }
         try {
+            console.log("Attempting to log in...")
             const user = await getUser({username, password})
+            console.log("user:", user)
+            if (user){
+                console.log("about to get token")
+                const token = jwt.sign({id: user.id, username}, `${process.env.JWT_SECRET}`)
+                console.log("JWT", jwt.sign)
+                console.log("token:", token)
+                res.send({message: "You are logged in!", token, user})
+            } else {
+                next({
+                    error:"IncorrectCredentialsError",
+                    message: "Username or password is incorrect"
+                })
+            }
+        } catch(error){
+            console.log("Failed to log in...")
+            next(error)
         }
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 

@@ -6,6 +6,7 @@ const {
     deleteUser,
     getUserByUsername,
     getUserById,
+    getUser,
     addBook,
     getBooksByAuthor,
     getBookByTitle,
@@ -339,8 +340,8 @@ async function testDB() {
         const allUsers = await getAllUsers()
         console.log("All users: ", allUsers)
 
-        const updatedUser = await updateUser(updatedUserInfo)
-        console.log("Updated user: ", updatedUser)
+        // const updatedUser = await updateUser(updatedUserInfo)
+        // console.log("Updated user: ", updatedUser)
 
         const userByUsername = await getUserByUsername("Kaylan")
         console.log("User by username: ", userByUsername)
@@ -350,21 +351,24 @@ async function testDB() {
         // const deletedUser = await deleteUser(4)
         // console.log("Deleted user: ", deletedUser)
 
-        const bookByAuthor = await getBooksByAuthor("Sarah J. Maas")
-        console.log("Books By Author", bookByAuthor)
+        const gotUser = await getUser({username:"Allyson", password:"testing123"})
+        console.log("Got user: ", gotUser)
 
-        const bookByTitle = await getBookByTitle("One True Loves")
-        console.log("Book by Title", bookByTitle)
+        // const bookByAuthor = await getBooksByAuthor("Sarah J. Maas")
+        // console.log("Books By Author", bookByAuthor)
 
-        const updatedBook = await updateBook({ id: 1, genre: "romance" })
-        const newBook = await getBookById(1)
-        console.log("Updated book", newBook)
+        // const bookByTitle = await getBookByTitle("One True Loves")
+        // console.log("Book by Title", bookByTitle)
 
-        const deletedBook = await deleteBook(2)
-        console.log("Deleted Book", deletedBook)
+        // const updatedBook = await updateBook({ id: 1, genre: "romance" })
+        // const newBook = await getBookById(1)
+        // console.log("Updated book", newBook)
 
-        const allBooks = await getAllBooks()
-        console.log("All Books", allBooks)
+        // const deletedBook = await deleteBook(2)
+        // console.log("Deleted Book", deletedBook)
+
+        // const allBooks = await getAllBooks()
+        // console.log("All Books", allBooks)
 
         console.log("Finished testing database...")
     } catch (error) {
