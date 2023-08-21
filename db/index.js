@@ -1,3 +1,3 @@
-// module.exports = {
-//     ...require('./books')
-// };
+module.exports = {
+    ...require('./books')
+};

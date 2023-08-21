@@ -1,5 +1,5 @@
 const client = require("./client")
-const {addBook} = require('./books')
+const {addBook, getBooksByAuthor, getBookByTitle, updateBook, getBookById, deleteBook, getAllBooks} = require('./')
 
 async function dropTables(){
     try{
@@ -250,12 +250,36 @@ async function rebuildDB(){
 async function testDB(){
     console.log("Starting to test database...")
 
+    try {
+
+        const bookByAuthor = await getBooksByAuthor("Sarah J. Maas");
+        console.log("Books By Author", bookByAuthor);
+
+        const bookByTitle = await getBookByTitle("One True Loves");
+        console.log("Book by Title", bookByTitle);
+
+        const updatedBook = await updateBook({id: 1, genre: "romance" });
+        const newBook = await getBookById(1);
+        console.log("Updated book", newBook);
+
+        const deletedBook = await deleteBook(2);
+        console.log("Deleted Book", deletedBook);
+
+        const allBooks = await getAllBooks();
+        console.log("All Books", allBooks);
+        
+    } catch (error) {
+        console.error(error)
+        throw error        
+    }
+
    
 
 
 }
 
 rebuildDB()
+.then(testDB)
 .catch(console.error)
     .finally(() => {
         client.end()
