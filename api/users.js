@@ -10,9 +10,9 @@ const { createUser,
     updateUser,
     deleteUser,
     getUserByUsername, 
-
     getUserById,
-    getUser} = require("../db")
+    getUser,
+    getUserByEmail} = require("../db")
 
 
     usersRouter.use("", (req, res, next) => {
@@ -110,7 +110,20 @@ const { createUser,
         }
         try {
             const _user = await getUserByUsername(username)
-          
+            const _email = await getUserByEmail(email)
+            if (_user || _email){
+                next({
+                    name:"UserAlreadyExists",
+                    message:`${username} or ${email} is already in use`
+                })
+            } else {
+                const user = await createUser({username, password, email})
+                const token = jwt.sign({id:user.id, username},`${process.env.JWT_SECRET}`, {expiresIn: "2w"})
+                res.send({message: "Thank you for signing up! Please login.", token, user })
+            }
+        } catch(error){
+            console.error(error)
+            next(error)
         }
     })
 
