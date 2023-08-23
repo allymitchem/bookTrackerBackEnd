@@ -110,6 +110,21 @@ async function getUserById(id){
     }
 }
 
+async function getUserByEmail(email){
+    try{
+        const {
+            rows: [user]
+        } = await client.query(`
+        SELECT *
+        FROM users
+        WHERE email = $1;
+        `, [email])
+        return user
+    } catch(error){
+        console.error()
+    }
+}
+
 async function getUser({username, password}){
     const user = await getUserByUsername(username)
     if (user){
@@ -133,6 +148,7 @@ module.exports = {
     deleteUser,
     getUserByUsername, 
     getUserById,
+    getUserByEmail,
     getUser
 
 }

@@ -6,6 +6,7 @@ const {
     deleteUser,
     getUserByUsername,
     getUserById,
+    getUserByEmail,
     getUser,
     addBook,
     getBooksByAuthor,
@@ -337,22 +338,26 @@ async function testDB() {
 
         console.log("User created: ", userCreated)
 
-        const allUsers = await getAllUsers()
-        console.log("All users: ", allUsers)
+        // const allUsers = await getAllUsers()
+        // console.log("All users: ", allUsers)
 
         // const updatedUser = await updateUser(updatedUserInfo)
         // console.log("Updated user: ", updatedUser)
 
-        const userByUsername = await getUserByUsername("Kaylan")
-        console.log("User by username: ", userByUsername)
+        // const userByUsername = await getUserByUsername("Kaylan")
+        // console.log("User by username: ", userByUsername)
 
-        const userById = await getUserById("3")
-        console.log("User by id: ", userById)
+        // const userByEmail = await getUserByEmail("batboy@gmail.com")
+        // console.log("User by email: ", userByEmail)
+
+        // const userById = await getUserById("3")
+        // console.log("User by id: ", userById)
+
         // const deletedUser = await deleteUser(4)
         // console.log("Deleted user: ", deletedUser)
 
-        const gotUser = await getUser({username:"Allyson", password:"testing123"})
-        console.log("Got user: ", gotUser)
+        // const gotUser = await getUser({username:"Allyson", password:"testing123"})
+        // console.log("Got user: ", gotUser)
 
         // const bookByAuthor = await getBooksByAuthor("Sarah J. Maas")
         // console.log("Books By Author", bookByAuthor)
