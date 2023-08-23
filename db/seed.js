@@ -6,6 +6,7 @@ const {
     deleteUser,
     getUserByUsername,
     getUserById,
+    getUserByEmail,
     getUser,
     addBook,
     getBooksByAuthor,
@@ -345,6 +346,9 @@ async function testDB() {
 
         const userByUsername = await getUserByUsername("Kaylan")
         console.log("User by username: ", userByUsername)
+
+        const userByEmail = await getUserByEmail("batboy@gmail.com")
+        console.log("User by email: ", userByEmail)
 
         const userById = await getUserById("3")
         console.log("User by id: ", userById)

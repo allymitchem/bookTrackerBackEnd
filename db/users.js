@@ -117,7 +117,7 @@ async function getUserByEmail(email){
         } = await client.query(`
         SELECT *
         FROM users
-        WHERE id = $1;
+        WHERE email = $1;
         `, [email])
         return user
     } catch(error){
