@@ -20,6 +20,8 @@ const { createUser,
         next()
     })
 
+// for admin to see all users
+
     usersRouter.get("", requireUser, async (req, res, next) => {
         
         try {
@@ -40,7 +42,7 @@ const { createUser,
             next(error)
         }
     })
-
+// users own info
     usersRouter.get("/me", requireUser, async (req, res, next)=>{
         const user = await getUserById(req.user.id)
         try { 
@@ -49,7 +51,10 @@ const { createUser,
             next({name, message})
         }
     })
+// update user info
+    
 
+// user login
     usersRouter.post("/login", async (req, res, next) => {
        
         const {username, password} = req.body
@@ -87,6 +92,27 @@ const { createUser,
         }
     })
 
+    // register new user
+
+    usersRouter.post("/register", async (req, res, next) => {
+        const {username, password, email} = req.body
+        if (!username || !password || !email){
+            next({
+                name:"IncompleteFieldsError",
+                message: "Please supply username, password, and email"
+            })
+        }
+        if(password.length < 8){
+            next({
+                name:"PasswordLengthError",
+                message:"Password too short!"
+            })
+        }
+        try {
+            const _user = await getUserByUsername(username)
+          
+        }
+    })
 
 
 
