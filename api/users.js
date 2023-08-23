@@ -52,7 +52,24 @@ const { createUser,
         }
     })
 // update user info
-    
+    usersRouter.patch("/me", requireUser, async (req, res, next) =>{
+        const userId = req.user.id
+        const fields = req.body
+        const updatedObj = {
+            username:fields.username,
+            password:feilds.password,
+            email:fields.email
+        }
+        const updatedUser = await updateUser(userId, updatedObj)
+        if (req.user.id === updatedUser.id){
+            res.send(updateUser)
+        } else {
+            next({
+                error:"NotAuthorizedUser",
+                message: "You are not authorized to update user"
+            })
+        }
+    })
 
 // user login
     usersRouter.post("/login", async (req, res, next) => {
